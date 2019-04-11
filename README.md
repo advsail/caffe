@@ -75,6 +75,19 @@ pip install 'networkx==2.2'
 pip install IPython==5.0 --user
 ```
 
+As you will see when you run the classification of an image, an `skimage.io` will occur as flowing. `ImportError: No module named skimage.io` Run the following command to install skimage.
+
+```shell
+sudo apt-get install python-skimage
+```
+
+For reference, if you meet new errors regarding of python packages, you can use the following command instead of using `pip install`
+
+```shell
+sudo apt-get install python-matplotlib python-numpy python-pil python-scipy
+sudo apt-get install build-essential cython
+```
+
 Prepare the Makefile.config
 
 ```shell
@@ -108,6 +121,31 @@ If you follow the `make` method on [BVLC/caffe](http://caffe.berkeleyvision.org/
 [Error 1: hdf5.h missing issue](https://askubuntu.com/questions/629654/building-caffe-failed-to-see-hdf5-h)
 
 [Error 2: libcaffe.so.1.0.0 error issue](https://github.com/BVLC/caffe/issues/5555)
+
+
+## A classification example
+
+Before running classification, we need to download the models first. Run the following command to download the model file.
+
+```shell
+scripts/download_model_binary.py models/bvlc_reference_caffenet
+```
+
+Classification command example
+
+```shell
+python python/classify.py examples/images/cat.jpg foo
+```
+
+Note that the results are saved into `foo.npy`, which is a numpy data file. Use the following command to see the results in python.
+
+```python
+import numpy as np
+np.load('foo.npy')
+```
+
+
+
 
 
 
