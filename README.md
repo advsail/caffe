@@ -43,3 +43,72 @@ Please cite Caffe in your publications if it helps your research:
       Title = {Caffe: Convolutional Architecture for Fast Feature Embedding},
       Year = {2014}
     }
+
+## Added By Myself
+
+## How to build Caffe on Ubuntu 16.04
+
+If you just want to use the officially-compiled caffe bins instead of modifying caffe code, using a docker is a better option. Currently there are two very-well maintained caffe docker.
+
+1. bvlc/caffe:cpu
+2. ufoym/deepo:cpu
+
+Detailed description of how to use `bvlc/caffe:cpu` is located [Here](https://github.com/advsail/caffe_docker).
+
+Steps to build caffe on a Ubuntu 16.04 machine.
+
+Prerequisites: Install the dependent packages
+
+```shell
+sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+sudo apt-get install --no-install-recommends libboost-all-dev
+sudo apt-get install libatlas-base-dev
+sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev
+for req in $(cat ./python/requirements.txt); do pip install $req; done
+```
+
+Fix 3 installation errors due to using Python 2.x version. Matplotlib error was ignored.
+
+```shell
+pip install 'scikit-image<0.15'
+pip install 'networkx==2.2'
+pip install IPython==5.0 --user
+```
+
+Prepare the Makefile.config
+
+```shell
+cp Makefile.config.example Makfile.config
+Uncommend CPU_ONLY := 1 in Makefile.config and save the file
+```
+
+Build the project
+
+```shell
+cd build
+make clean
+cmake ..
+make all
+```
+
+Install the bins
+
+```shell
+make install
+```
+
+Test the installation
+
+```shell
+make runtest
+```
+
+If you follow the `make` method on [BVLC/caffe](http://caffe.berkeleyvision.org/installation.html#compilation) you will run into two errors, so this way is not recommended. If you insist to use `make`, fixes are listed below.
+
+[Error 1: hdf5.h missing issue](https://askubuntu.com/questions/629654/building-caffe-failed-to-see-hdf5-h)
+
+[Error 2: libcaffe.so.1.0.0 error issue](https://github.com/BVLC/caffe/issues/5555)
+
+
+
+
